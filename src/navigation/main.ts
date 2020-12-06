@@ -11,6 +11,7 @@ import {
   defaultSideMenu,
   leftButton,
 } from './styles'
+import { TChatId } from '../types/common'
 
 export const setMainRoot = (): Promise<string> => {
   return Navigation.setRoot({
@@ -25,7 +26,7 @@ export const setMainRoot = (): Promise<string> => {
               width: 50,
               height: height,
             },
-            openGestureMode: 'entireScreen',
+            openGestureMode: 'bezel',
           },
           topBar: {
             visible: true,
@@ -121,7 +122,7 @@ export const chatList = (): LayoutStackChildren => {
   }
 }
 
-export const chat = (): LayoutStackChildren => {
+export const chat = (chatId: TChatId): LayoutStackChildren => {
   return {
     component: {
       id: SCREENS.CHAT.id,
@@ -136,10 +137,10 @@ export const chat = (): LayoutStackChildren => {
           backButton: {
             visible: true,
           },
-          leftButtons: [
-            leftButton(),
-          ],
         },
+      },
+      passProps: {
+        chatId,
       },
     },
   }

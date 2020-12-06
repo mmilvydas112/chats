@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
   StyleSheet,
   Text,
@@ -13,9 +13,7 @@ import {
 import { ComponentEvent } from 'react-native-navigation'
 import {
   colors,
-  height,
   styles,
-  width,
 } from '../../styles'
 import LinearGradient from 'react-native-linear-gradient'
 import {
@@ -33,14 +31,10 @@ const SideMenu = ({
   componentId,
 }: SideMenuProps) => {
 
-  useEffect(() => {
-    console.log('rendered')
-  }, [])
-
   const navigateTo = async (menuConfig: IMenuConfig) => {
-    if (menuConfig.screenName === SCREENS.CHAT.id) { //quick way
+    if (menuConfig.screenName === SCREENS.CHAT_LIST.id) { //quick way
       await pop(SCREENS.PROFILE.id)
-      mergeOptions(SCREENS.CHAT.id, {
+      mergeOptions(SCREENS.CHAT_LIST.id, {
         sideMenu: {
           left: {
             visible: false,
@@ -52,21 +46,9 @@ const SideMenu = ({
     }
   }
 
-  useEffect(() => {
-
-  }, [])
-
   return (
     <LinearGradient
       angle={-45}
-      start={{
-        x: 0,
-        y: height - 50,
-      }}
-      end={{
-        x: width * 0.33,
-        y: height / 2,
-      }}
       useAngle={true}
       colors={[colors.grey900, colors.grey900]}
       style={style.inputContainer}>
@@ -76,7 +58,6 @@ const SideMenu = ({
         </Text>
       </View>
       {menuConfig.map((item, index) => {
-        console.log(item, 'item')
         return (
           <TouchableOpacity
             key={`SM_${index}`}

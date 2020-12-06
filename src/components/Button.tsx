@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
   ActivityIndicator,
   StyleSheet,
@@ -23,10 +23,6 @@ const Button = ({
   loading = false,
   disabled = false,
 }: ButtonProps) => {
-
-  useEffect(() => {
-    console.log('rendered')
-  }, [])
 
   return (
     <View style={style.btnViewContainer}>

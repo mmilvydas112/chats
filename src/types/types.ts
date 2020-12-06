@@ -1,8 +1,4 @@
 import {
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
-} from 'react-native'
-import {
   TChatId,
   TIcons,
 } from './common'
@@ -13,13 +9,6 @@ export interface IUserLoginCredentials {
   email: NonNullable<string>;
   password: NonNullable<string>;
 }
-
-export interface IOnChangeTextLogin {
-  name: string;
-  e: NativeSyntheticEvent<TextInputChangeEventData>;
-}
-
-export type onChangeTextLoginFunc = (props: IOnChangeTextLogin) => void;
 
 export interface IMenuConfig {
   iconType: TIcons;
@@ -34,6 +23,6 @@ export interface IChatReducerItem {
     id: TChatId;
     email: IUserReducer['email'];
     messages: []
-  };
+  } | any;
   error: string;
 }

@@ -5,7 +5,7 @@ import {
   INIT_CHAT,
   InitChatAction,
   SET_CHAT_ERROR,
-  SetChatErrorAction,
+  UPDATE_CHAT,
 } from '../types'
 import { IStoreReducer } from '../storeType'
 import {
@@ -14,11 +14,14 @@ import {
 } from '../../api/requests'
 import { updateUser } from './userActions'
 import { captureException } from '../../plugins/errors'
+import { TChatId } from '../../types/common'
+import { TEXTS } from '../../plugins/constants'
+import { Action } from 'redux'
 
-type AppThunk<R> = ThunkAction<R, any, ChatActions, any>;
+type AppThunk<R> = ThunkAction<R, any, ChatActions, Action<string>>;
 
-export const setChatError = (error: string = ''): AppThunk<SetChatErrorAction> => {
-  return (dispatch: IStoreDispatch): SetChatErrorAction => {
+export const setChatError = (error: string = ''): any => {
+  return (dispatch: IStoreDispatch): any => {
     return dispatch({
       type: SET_CHAT_ERROR,
       error,
@@ -26,31 +29,31 @@ export const setChatError = (error: string = ''): AppThunk<SetChatErrorAction> =
   }
 }
 
-export const updateChat = (): AppThunk<Promise<any>> => {
+export const sendChatMessage = (chatId: TChatId, message: string): AppThunk<Promise<any>> => {
   return async (dispatch: IStoreDispatch, getState: () => IStoreReducer): Promise<any> => {
     try {
-      const { id } = getState().user
-      const res = await updateChatRequest(id)
-      const chatId = res?.id ?? ''
-      const chatObj = res?.data ?? {}
-      let chat = {
-        id: chatId,
-        email: res.data.email,
-        messages: {
-          ...getState().chat[chatId].messages || [],
-          ...res.data?.messages || [],
-        },
+      if (!message) {
+        // @ts-ignore
+        dispatch(setChatError(TEXTS.CHAT_MESSAGE_EMPTY))
+        return
       }
-      console.log(chat, 'chat')
-      // dispatch({
-      //   type: SET_CHAT,
-      //   chatId,
-      //   chat,
-      // })
+      const chatObj = getState().chats.chat[chatId]
+      const tempMessageId = new Date().getTime()
+      chatObj.messages = [...chatObj?.messages ?? [], {
+        id: tempMessageId,
+        message,
+        createdAt: new Date().getTime(),
+      }]
+      const res = await updateChatRequest(chatId, chatObj) //TODO recheck api references
+      // console.log(res, 'res')
+      dispatch({
+        type: UPDATE_CHAT,
+        chatId,
+        chatObj,
+      })
     } catch (err) {
       captureException(err, 'updateChat')
     }
-
   }
 }
 
@@ -59,7 +62,7 @@ export const initNewChat = (): AppThunk<Promise<InitChatAction | void>> => {
     try {
       const res = await initNewChatRequest()
       const chatId = res?.id ?? ''
-      console.log(res, chatId, 'data')
+      // @ts-ignore
       dispatch(updateUser({ id: chatId }))
       dispatch({
         type: INIT_CHAT,
@@ -67,6 +70,7 @@ export const initNewChat = (): AppThunk<Promise<InitChatAction | void>> => {
         chat: {
           ...getState().chats?.chat[chatId] || {},
           ...res?.data,
+          id: chatId,
           messages: [],
         },
       })

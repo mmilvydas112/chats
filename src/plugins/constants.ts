@@ -22,6 +22,7 @@ export const MESSAGES = {
 export const ERROR_TEXT = {
   SOMETHING_WENT_WRONG: 'Something went wrong. Please try again.',
   CHECK_INTERNET: 'Something went wrong. Check internet connection and try again.',
+  CHAT_MESSAGE_EMPTY: 'Message can not be empty.',
 }
 
 export const NAVIGATION_TEXT = {
@@ -39,6 +40,7 @@ export const PLACEHOLDERS = {
   EMAIL: 'Write your email...',
   PASSWORD: 'Write your password...',
   NEW_PASSWORD: 'Write your new password...',
+  ENTER_MESSAGE: 'Write your message...',
 }
 
 export const TEXTS = {

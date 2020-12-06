@@ -3,8 +3,9 @@ import {
   SET_CHAT_ERROR,
   UPDATE_CHAT,
 } from '../types'
+import { IStoreReducer } from '../storeType'
 
-let initialState = {
+let initialState: IStoreReducer['chats'] = {
   chat: {},
   error: '',
 }

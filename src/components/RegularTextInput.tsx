@@ -14,9 +14,9 @@ interface RegularTextInputProps {
   onChange: any;
   value: string;
   name: string;
-  error?: string | string[];
+  error?: string | string[] | false;
   extraStyles?: ViewStyle;
-  props: TextInputProps;
+  props: Partial<TextInputProps>;
 }
 
 const RegularTextInput = ({

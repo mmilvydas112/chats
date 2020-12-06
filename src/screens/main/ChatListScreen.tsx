@@ -9,11 +9,13 @@ import {
   useSelector,
 } from 'react-redux'
 import ChatListItem from '../../components/ChatListItem'
-import store from '../../redux/store'
 import { IStoreReducer } from '../../redux/storeType'
 import Toast from 'react-native-simple-toast'
 import { DURATION } from '../../plugins/constants'
-import { setChatError } from '../../redux/actions'
+import {
+  initNewChat,
+  setChatError,
+} from '../../redux/actions'
 
 const ChatListScreen = () => {
   const dispatcher = useDispatch()
@@ -21,12 +23,7 @@ const ChatListScreen = () => {
   const chatError = useSelector((state: IStoreReducer) => state.chats.error)
 
   useEffect(() => {
-    console.log(store.getState().user, 'user?')
-    // if (!store.getState().user.id) {
-    //   dispatcher(initNewChat())
-    // } else {
-    //   dispatcher(initNewChat())
-    // }
+    dispatcher(initNewChat()) //Creates new chat everytime app loads
   }, [])
 
   useEffect(() => {
@@ -37,20 +34,19 @@ const ChatListScreen = () => {
   }, [chatError])
 
   return (
-    <>
-      <SafeAreaView>
-        <FlatList
-          data={chatIds}
-          renderItem={({ item: chatId }) => {
-            return (
-              <ChatListItem
-                chatId={chatId}
-              />
-            )
-          }}>
-        </FlatList>
-      </SafeAreaView>
-    </>
+    <SafeAreaView>
+      <FlatList
+        data={chatIds}
+        keyExtractor={item => `CLS_${item}_FLAT`}
+        renderItem={({ item: chatId }) => {
+          return (
+            <ChatListItem
+              chatId={chatId}
+            />
+          )
+        }}>
+      </FlatList>
+    </SafeAreaView>
   )
 }
 

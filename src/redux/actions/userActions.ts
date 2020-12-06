@@ -3,15 +3,20 @@ import { ThunkAction } from 'redux-thunk'
 import {
   SET_USER,
   SetUserAction,
-  UserActions,
 } from '../types'
-import { IUserReducer } from '../storeType'
+import { IStoreReducer } from '../storeType'
+import { Action } from 'redux'
+import rootReducer from '../reducers'
 
-type AppThunk<R> = ThunkAction<R, any, UserActions, any>;
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType,
+  typeof rootReducer,
+  unknown,
+  Action<string>>
+// type AppThunk<R> = ThunkAction<R, any, UserActions, any>;
 
-export const updateUser = (user: Partial<IUserReducer>): AppThunk<SetUserAction> => {
-  return (dispatch: IStoreDispatch): SetUserAction => {
-    return dispatch({
+export const updateUser = (user: Partial<IStoreReducer['user']>): AppThunk<void> => {
+  return (dispatch: IStoreDispatch): SetUserAction | void => {
+    dispatch({
       type: SET_USER,
       user,
     })

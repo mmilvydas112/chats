@@ -18,7 +18,7 @@ import promiseMiddleware from 'redux-promise'
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  blacklist: ['chat'],
+  blacklist: [],
 }
 
 let middlewareStack = [thunk, promiseMiddleware]

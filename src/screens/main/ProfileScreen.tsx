@@ -70,7 +70,6 @@ const LoginScreen = () => {
           }}
           validationSchema={validationSchema}>
           {(props) => {
-            console.log(props, 'props')
             return (
               <Form style={style.formView}>
                 <RegularTextInput

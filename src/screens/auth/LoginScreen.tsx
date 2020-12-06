@@ -40,7 +40,9 @@ const LoginScreen = () => {
 
   useEffect(() => {
     try {
-      if (store.getState().user.password) { //cached data - auto login
+      // @ts-ignore
+      const { password } = store.getState().user
+      if (password) { //cached data - auto login
         setMainRoot()
       }
     } catch (err) {
@@ -87,7 +89,6 @@ const LoginScreen = () => {
                   onChange={props.setFieldValue}
                   error={props.touched.email && props.errors?.email}
                   name={'email'}
-                  type={'email'}
                 />
                 <RegularTextInput
                   placeholder={TEXTS.PASSWORD}
@@ -96,7 +97,6 @@ const LoginScreen = () => {
                   onChange={props.setFieldValue}
                   error={props.touched.password && props.errors?.password}
                   name={'password'}
-                  type={'password'}
                   secureTextEntry={true}
                 />
                 <Button

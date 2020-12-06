@@ -29,15 +29,18 @@ const ChatListItem = ({
 }: ChatListItemProps) => {
 
   const navigateTo = async (): Promise<void> => {
-    await push(ROOT_IDS.LEFT_MENU_CENTER, chat())
+    await push(ROOT_IDS.LEFT_MENU_CENTER, chat(chatId))
   }
 
-  const { id, messages = [] } = useSelector((state: IStoreReducer) => state.chats.chat[chatId])
+  const messageLen = useSelector((state: IStoreReducer) => state.chats.chat[chatId]?.messages?.length) ?? 0
+  const messageText = useSelector((state: IStoreReducer) =>
+    messageLen > 0 ? state.chats.chat[chatId]?.messages[0]?.message : `Chat with ${chatId}`)
 
   return (
     <TouchableOpacity
+      key={`CLI_${chatId}`}
       onPress={debounce(navigateTo, DURATION.DEBOUNCE.SHORT)}
-      activeOpacity={0.8}
+      activeOpacity={0.66}
       style={style.containerBtn}>
       <Image
         source={{ uri: 'https://cdn2.iconfinder.com/data/icons/audio-16/96/user_avatar_profile_login_button_account_member-512.png' }}
@@ -46,7 +49,7 @@ const ChatListItem = ({
       </Image>
       <View style={style.textView}>
         <Text style={style.text}>
-          {`${messages?.length ? messages[0] : `Chat with ${chatId}`}`}
+          {`${messageText}`}
         </Text>
       </View>
 
@@ -59,10 +62,11 @@ const style = StyleSheet.create<any>({
     flex: 1,
     width,
     height: 70,
-    backgroundColor: colors.blue25,
     padding: 10,
     flexDirection: 'row',
     alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: colors.grey900,
   },
   avatarImage: {
     width: 50,

@@ -5,7 +5,7 @@ import React, {
 import { Provider } from 'react-redux'
 import store from './store'
 
-export default function ReduxProvider(Component): FunctionComponent<any> {
+export default function ReduxProvider(Component: any): FunctionComponent<any> {
   return (props): ReactElement => (
     <Provider store={store}>
       <Component {...props} />

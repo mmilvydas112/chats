@@ -1,6 +1,7 @@
 import { Navigation } from 'react-native-navigation'
 import { LoginScreen } from '../screens/auth'
 import {
+  ChatListScreen,
   ChatScreen,
   ProfileScreen,
 } from '../screens/main'
@@ -15,6 +16,7 @@ export const registerScreens = (): void => {
   Navigation.registerComponent(SCREENS.SIDE_MENU.name, () => ReduxProvider(SideMenu))
   Navigation.registerComponent(SCREENS.LOGIN.name, () => ReduxProvider(LoginScreen))
   Navigation.registerComponent(SCREENS.CHAT.name, () => ReduxProvider(ChatScreen))
+  Navigation.registerComponent(SCREENS.CHAT_LIST.name, () => ReduxProvider(ChatListScreen))
   Navigation.registerComponent(SCREENS.PROFILE.name, () => ReduxProvider(ProfileScreen))
   Navigation.registerComponent(SCREENS.LEFT_MENU_BTN.name, () => ReduxProvider(LeftMenu))
 }

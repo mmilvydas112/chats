@@ -1,20 +1,28 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native'
 import { Icon } from 'native-base'
 import { colors } from '../../styles'
+import { mergeOptions } from '../helpers'
+import { ROOT_IDS } from '../config'
 
 const LeftMenu = ({}) => {
 
-  useEffect(() => {
-    console.log('rendered')
-  }, [])
+  const openSideMenu = (): void => {
+    mergeOptions(ROOT_IDS.LEFT_MENU_CENTER, {
+      sideMenu: {
+        left: {
+          visible: true,
+        },
+      },
+    })
+  }
 
   return (
     <TouchableOpacity
-      onPress={() => console.log('hey')}
+      onPress={openSideMenu}
       style={style.container}>
       <Icon
         type={'MaterialIcons'}
@@ -32,7 +40,6 @@ const style = StyleSheet.create<any>({
   container: {
     width: 50,
     height: 50,
-    backgroundColor: 'blue',
   },
 })
 

@@ -8,13 +8,15 @@ import store from '../redux/store'
 import { setChatError } from '../redux/actions'
 import { TEXTS } from '../plugins/constants'
 import { captureException } from '../plugins/errors'
+import { TChatId } from '../types/common'
+import { IChatReducerItem } from '../types/types'
 
 export const initNewChatRequest = async (): Promise<AxiosResponse['data']> => {
   try {
-    console.log(store.getState().user.email, 'email')
+    const { user }: any = store.getState()
     const res = await axios.post(API_URI(), {
       'id': '',
-      'email': store.getState().user.email,
+      'email': user.email,
     }, {
       method: 'POST',
       headers: {
@@ -25,7 +27,6 @@ export const initNewChatRequest = async (): Promise<AxiosResponse['data']> => {
     if (res.status !== 200) {
       store.dispatch(setChatError(TEXTS.CHECK_INTERNET))
     }
-    console.log(res, 'initNewChatRequest')
     return res.data
   } catch (err) {
     captureException(err, 'initNewChatRequest')
@@ -33,22 +34,22 @@ export const initNewChatRequest = async (): Promise<AxiosResponse['data']> => {
   }
 }
 
-export const updateChatRequest = async (id: string = ''): Promise<AxiosResponse['data']> => {
+export const updateChatRequest = async (chatId: TChatId, chatObj: IChatReducerItem['chat']): Promise<AxiosResponse['data']> => {
   try {
-    const res = await axios.post(API_URI(id), `${JSON.stringify(store.getState().chat.chats[id])}`, {
-      method: 'POST',
+    const res = await axios.post(API_URI(chatId), chatObj, {
+      method: 'PUT',
       headers: {
         ...defaultHeaders,
         'secret-key': SECRET_KEY,
       },
     })
-    console.log(res, 'updateChatRequest')
     if (res.status !== 200) {
+      captureException(JSON.stringify(res), 'updateChatRequest')
       store.dispatch(setChatError(TEXTS.CHECK_INTERNET))
     }
     return res.data
   } catch (err) {
-    console.log(err, 'err')
+    captureException(err, 'updateChatRequest')
     store.dispatch(setChatError(TEXTS.CHECK_INTERNET))
   }
 }
