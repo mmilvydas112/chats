@@ -17,7 +17,11 @@ import {
   setChatError,
 } from '../../redux/actions'
 
-const ChatListScreen = () => {
+interface ChatListScreenProps {
+
+}
+
+const ChatListScreen = ({}: ChatListScreenProps) => {
   const dispatcher = useDispatch()
   const chatIds = useSelector((state: IStoreReducer) => Object.keys(state.chats.chat)) ?? []
   const chatError = useSelector((state: IStoreReducer) => state.chats.error)

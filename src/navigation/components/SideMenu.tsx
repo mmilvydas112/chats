@@ -31,7 +31,7 @@ const SideMenu = ({
   componentId,
 }: SideMenuProps) => {
 
-  const navigateTo = async (menuConfig: IMenuConfig) => {
+  const navigateTo = async (menuConfig: IMenuConfig): Promise<void> => {
     if (menuConfig.screenName === SCREENS.CHAT_LIST.id) { //quick way
       await pop(SCREENS.PROFILE.id)
       mergeOptions(SCREENS.CHAT_LIST.id, {
