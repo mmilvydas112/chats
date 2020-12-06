@@ -19,6 +19,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import {
   mergeOptions,
   pop,
+  popToRoot,
   push,
 } from '../helpers'
 import { SCREENS } from '../screenNames'
@@ -34,16 +35,17 @@ const SideMenu = ({
   const navigateTo = async (menuConfig: IMenuConfig): Promise<void> => {
     if (menuConfig.screenName === SCREENS.CHAT_LIST.id) { //quick way
       await pop(SCREENS.PROFILE.id)
-      mergeOptions(SCREENS.CHAT_LIST.id, {
-        sideMenu: {
-          left: {
-            visible: false,
-          },
-        },
-      })
     } else {
+      await popToRoot(ROOT_IDS.LEFT_MENU_CENTER)
       await push(ROOT_IDS.LEFT_MENU_CENTER, menuConfig.screen())
     }
+    mergeOptions(SCREENS.CHAT_LIST.id, {
+      sideMenu: {
+        left: {
+          visible: false,
+        },
+      },
+    })
   }
 
   return (

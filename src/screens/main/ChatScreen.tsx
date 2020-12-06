@@ -8,6 +8,7 @@ import {
   FlatList,
   Keyboard,
   KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -68,7 +69,7 @@ const ChatScreen = ({
     <KeyboardAvoidingView
       style={styles.flex1}
       keyboardVerticalOffset={64 + (hasNotch() ? 24 : 0)} //TODO: needs constants
-      behavior={'padding'}>
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <SafeAreaView style={style.container}>
         <FlatList
           data={messages}
